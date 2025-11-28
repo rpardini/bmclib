@@ -213,3 +213,10 @@ func (p *Config) PowerSet(ctx context.Context, state string) (ok bool, err error
 
 	return true, nil
 }
+
+// BootDeviceSet sends a next boot device rpc notification.
+func (p *Config) BootDeviceSet(ctx context.Context, bootDevice string, setPersistent, efiBoot bool) (ok bool, err error) {
+	// fully no-op for now; in the future, some other switch could touch some GPIO which could work with a custom bootloader
+	p.Logger.Info("BootDeviceSet is not implemented for Home Assistant provider; no operation performed", "bootDevice", bootDevice, "setPersistent", setPersistent, "efiBoot", efiBoot)
+	return true, nil
+}

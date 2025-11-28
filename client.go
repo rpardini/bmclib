@@ -152,7 +152,7 @@ func (c *Client) defaultTimeout(ctx context.Context) time.Duration {
 }
 
 func (c *Client) registerHomeAssistantProvider() error {
-	driverHA := homeassistant.New(c.providerConfig.homeassistant.ApiUrl, c.providerConfig.homeassistant.ApiToken)
+	driverHA := homeassistant.New(c.Auth.Host, c.Auth.Pass)
 	c.providerConfig.homeassistant.Logger = c.Logger
 	httpClient := *c.httpClient
 	httpClient.Transport = c.httpClient.Transport.(*http.Transport).Clone()
@@ -283,7 +283,7 @@ func (c *Client) registerOpenBMCProvider() {
 
 func (c *Client) registerProviders() {
 	// register the homeassistant provider, if options for it were provided
-	if c.providerConfig.homeassistant.ApiUrl != "" && c.providerConfig.homeassistant.ApiToken != "" {
+	if c.providerConfig.homeassistant.SwitchEntityID != "" {
 		// when the rpc provider is to be used, we won't register any other providers.
 		err := c.registerHomeAssistantProvider()
 		if err == nil {

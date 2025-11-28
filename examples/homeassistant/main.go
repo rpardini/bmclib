@@ -20,20 +20,24 @@ func main() {
 		bmclib.WithLogger(log),
 		//bmclib.WithPerProviderTimeout(5 * time.Second),
 		bmclib.WithHomeAssistantOpt(homeassistant.Config{
-			ApiUrl:                     "https://ha.somewhere",
-			ApiToken:                   "ey...hk",
 			SwitchEntityID:             "switch.shellypstripg4_98a3167b747c_switch_0",
 			PowerOperationDelaySeconds: 2,
 		}),
 	}
-	host := "notusedhost"
+	host := "http://some.homeassistant.instance:8123"
 	user := "notuseduser"
-	pass := "notusedpass"
+	pass := "ey.....hk"
 	c := bmclib.NewClient(host, user, pass, opts...)
 	if err := c.Open(ctx); err != nil {
 		panic(err)
 	}
 	defer c.Close(ctx)
+
+	ok3, err := c.SetBootDevice(ctx, "pxe", false, false)
+	if err != nil {
+		panic(err)
+	}
+	log.Info("set boot device", "ok3", ok3)
 
 	state, err := c.GetPowerState(ctx)
 	if err != nil {
